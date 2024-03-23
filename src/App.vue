@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import NavBar from './components/NavBar.vue'
+import AddBtn from './components/AddBtn.vue'
+import CardList from './components/CardList.vue'
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <NavBar></NavBar>
+  <AddBtn class="fixed bottom-0 right-0 m-4 z-20"></AddBtn>
+  <div class="container px-8 mt-4 mx-auto">
+    <div>
+      <CardList v-for="i in 8" class="mt-4"></CardList>
+    </div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>
