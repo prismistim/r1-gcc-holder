@@ -4,10 +4,10 @@ import Card from './Card.vue'
 
 <template>
   <div>
-    <div class="text-xl font-bold">ららぽーと新三郷店</div>
-    <div class="mt-4 flex overflow-scroll gap-4 w-full">
+    <div class="text-xl font-bold">ららぽーと新三郷</div>
+    <div class="mt-2 flex overflow-scroll gap-4 w-full py-4">
       <Card v-for="n in 8"></Card>
       <Card></Card>
     </div>
   </div>
-</template>w-full
+</template>
