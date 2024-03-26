@@ -52,7 +52,7 @@ const startProgressBar = () => {
           light: '#ffffffff',
         }"
         type="image/png"
-        :scale="5"
+        :scale="6"
       ></VueQrcode>
       <button
         v-else
@@ -68,21 +68,39 @@ const startProgressBar = () => {
         :value="progress"
         :max="maxShowTime"
       ></progress>
-      <button :disabled="!isShowQRCode" class="btn btn-square btn-sm" @click="switchQRCodeDisplay">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      <button
+        :disabled="!isShowQRCode"
+        class="btn btn-square btn-sm"
+        @click="switchQRCodeDisplay"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
       </button>
     </div>
   </div>
   <div class="mt-4">
     <div>カレンダーにリマインドを追加</div>
-    <div class="flex flex-wrap gap-2 justify-center">
+    <div class="flex flex-wrap gap-4 justify-center">
       <button class="btn mt-4">Googleカレンダー</button>
       <button class="btn mt-4">iCal</button>
     </div>
   </div>
   <div class="mt-4">
-    <div>危険なエリア</div>
-    <div class="text-center">
+    <div>操作</div>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <button class="btn btn-secondary mt-4">有効期限の更新（再チャージ）</button>
       <button class="btn btn-error mt-4">このカードを削除する</button>
     </div>
   </div>
