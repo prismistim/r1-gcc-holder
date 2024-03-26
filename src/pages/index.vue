@@ -14,7 +14,7 @@ import { RouterLink } from 'vue-router'
   <div class="text-lg font-bold mt-4">注意事項</div>
   <ul class="list-disc list-inside mt-2">
     <li>本アプリは元サービスの運営会社側の許諾を得て開発したものではありません。カードに関するシステムの権利等は運営会社に帰属します。</li>
-    <li>完全な動作の保証はできかねます。自己責任で利用してください。</li>
+    <li>完全な動作の保証はできかねます。本アプリ利用時も発行したカードは必ず保管、携帯し自己責任で利用してください。</li>
     <li>本アプリに関する内容に関して、元サービスの運営会社へのお問い合わせはご遠慮ください。</li>
   </ul>
   <div class="text-center mt-6">

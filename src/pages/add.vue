@@ -2,17 +2,21 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
+import { useStore } from '../composables/useStore'
 import { QrcodeStream } from 'vue-qrcode-reader'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import type { QR } from '../types/qr'
+import type { StoredDataItem } from '../types/storedData'
+import { locations } from '../statics/location'
 
 const router = useRouter()
+const store = useStore()
 
-const formData = ref({
+const formData = ref<Omit<StoredDataItem, 'id'>>({
   codeValue: '',
   issueDate: '',
-  locationId: '',
+  locationId: 1,
 })
 
 const onDetect = async (item: QR[]) => {
@@ -26,6 +30,11 @@ const clearCodeValue = () => {
 const today = computed(() => {
   return dayjs().format('YYYY-MM-DD')
 })
+
+const setFormData = () => {
+  store.setData(formData.value)
+  router.push('/list')
+}
 </script>
 
 <template>
@@ -36,16 +45,14 @@ const today = computed(() => {
   <div v-else class="mt-4">
     <div>
       <div>QRコード</div>
-      <button class="btn btn-error rounded-md mt-2" @click="clearCodeValue">
+      <button class="btn btn-error w-full mt-2" @click="clearCodeValue">
         再読取り
       </button>
     </div>
     <div class="mt-4">
       <label>発行日</label>
       <div class="mt-2">
-        <button class="btn rounded-md" @click="formData.issueDate = today">
-          今日
-        </button>
+        <button class="btn" @click="formData.issueDate = today">今日</button>
         <VueDatePicker
           v-model="formData.issueDate"
           :enable-time-picker="false"
@@ -63,16 +70,13 @@ const today = computed(() => {
         v-model="formData.locationId"
         class="select select-bordered w-full rounded-md mt-2"
       >
-        <option disabled>埼玉県</option>
-        <option value="saitama_lala_sinmisato">ららぽーと新三郷</option>
-        <option disabled>大阪府</option>
-        <option value="osaka_sakai">堺</option>
+        <option v-for="item in locations" :key="item.id" :value="item.id">
+          {{ item.name }}
+        </option>
       </select>
     </div>
     <div class="mt-6 text-center">
-      <button class="btn btn-primary rounded-md" @click="router.push('/list')">
-        追加
-      </button>
+      <button class="btn btn-primary" @click="setFormData">追加</button>
     </div>
   </div>
 </template>
