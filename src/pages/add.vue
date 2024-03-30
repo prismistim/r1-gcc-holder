@@ -32,7 +32,7 @@ const today = computed(() => {
 })
 
 const setFormData = () => {
-  store.setData(formData.value)
+  store.addItem(formData.value)
   router.push('/list')
 }
 </script>

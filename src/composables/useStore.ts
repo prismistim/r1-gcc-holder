@@ -27,16 +27,47 @@ export const useStore = () => {
     return JSON.parse(storedStr)
   }
 
-  const setData = (payload: Omit<StoredDataItem, 'id'>) => {
+  const getTargetItem = (id: StoredDataItem['id']): StoredDataItem | null => {
+    const storedData = getStoredData()
+    if (!storedData?.cards) return null
+
+    return storedData.cards.find((item) => (item.id = id)) ?? null
+  }
+
+  const addItem = (payload: Omit<StoredDataItem, 'id'>) => {
+    const storedData = getStoredData()
+
+    if (!storedData?.cards) return
+
+    storedData.cards.push({
+      id: storedData.cards.length + 1,
+      ...payload,
+    })
+    localStorage.setItem('card', JSON.stringify(storedData))
+  }
+
+  const changeItemIssueDate = (payload: {
+    id: StoredDataItem['id']
+    issueDate: StoredDataItem['issueDate']
+  }) => {
     const storedData = getStoredData()
 
     if (!storedData) return
 
-    storedData.cards.push({
-      id: storedData.cards.length + 1,
-      ...payload
-    })
-    localStorage.setItem('card', JSON.stringify(storedData))
+    const targetItem = storedData.cards.find((item) => item.id === payload.id)
+
+    if (!targetItem) return
+
+    targetItem.issueDate = payload.issueDate
+
+    localStorage.setItem(
+      'card',
+      JSON.stringify({
+        cards: storedData.cards
+          .filter((item) => item.id !== payload.id)
+          .concat([targetItem]),
+      }),
+    )
   }
 
   const deleteItem = (id: StoredDataItem['id']) => {
@@ -45,10 +76,19 @@ export const useStore = () => {
 
     const payload = storedData.cards.filter((item) => item.id !== id)
 
-    localStorage.setItem('card', JSON.stringify({
-      cards: payload
-    }))
+    localStorage.setItem(
+      'card',
+      JSON.stringify({
+        cards: payload,
+      }),
+    )
   }
 
-  return { getStoredData, setData, deleteItem }
+  return {
+    getStoredData,
+    getTargetItem,
+    addItem,
+    changeItemIssueDate,
+    deleteItem,
+  }
 }

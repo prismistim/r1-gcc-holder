@@ -133,10 +133,17 @@ const deleteItem = () => {
     <div class="mt-4">
       <div>操作</div>
       <div class="flex flex-wrap gap-4 justify-center">
-        <button class="btn btn-secondary mt-4">
+        <button
+          class="btn btn-secondary mt-4"
+          @click="
+            router.push({ name: 'ReCharge', params: { id: route.params.id } })
+          "
+        >
           有効期限の更新（再チャージ）
         </button>
-        <button class="btn btn-error mt-4" @click="deleteItem">このカードを削除する</button>
+        <button class="btn btn-error mt-4" @click="deleteItem">
+          このカードを削除する
+        </button>
       </div>
     </div>
   </template>
