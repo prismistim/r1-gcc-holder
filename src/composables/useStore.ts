@@ -31,7 +31,7 @@ export const useStore = () => {
     const storedData = getStoredData()
     if (!storedData?.cards) return null
 
-    return storedData.cards.find((item) => (item.id = id)) ?? null
+    return storedData.cards.find((item) => (item.id === id)) ?? null
   }
 
   const addItem = (payload: Omit<StoredDataItem, 'id'>) => {
