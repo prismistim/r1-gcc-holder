@@ -12,6 +12,7 @@ import { locations } from '../statics/location'
 
 const router = useRouter()
 const store = useStore()
+const error = ref('')
 
 const formData = ref<Omit<StoredDataItem, 'id'>>({
   codeValue: '',
@@ -23,6 +24,20 @@ const onDetect = async (item: QR[]) => {
   formData.value.codeValue = item[0].rawValue
 }
 
+const onError = (err: DOMException) => {
+  error.value = `[${err.name}] `
+
+  if (err.name === 'NotAllowedError') {
+    error.value += 'QRコードをスキャンするにはカメラの使用を許可してください。'
+  } else if (err.name === 'NotFoundError') {
+    error.value += '使用できるカメラが見つかりません。'
+  } else if (err.name === 'NotReadableError') {
+    error.value += 'このカメラは他のアプリケーションで使用されています。'
+  } else {
+    error.value += '不明なエラーです。'
+  }
+}
+
 const clearCodeValue = () => {
   formData.value.codeValue = ''
 }
@@ -32,15 +47,33 @@ const today = computed(() => {
 })
 
 const setFormData = () => {
-  store.addItem(formData.value)
+  store.addItem({
+    ...formData.value,
+    issueDate: dayjs(formData.value.issueDate).format('YYYY-MM-DD'),
+  })
   router.push('/list')
+}
+
+const reload = () => {
+  window.location.reload()
 }
 </script>
 
 <template>
   <div class="text-xl font-bold">カードを追加する</div>
   <div v-if="!formData.codeValue" class="mt-4">
-    <QrcodeStream :formats="['qr_code']" @detect="onDetect"></QrcodeStream>
+    <div v-if="error">
+      <p>
+        {{ error }}
+      </p>
+      <button class="btn btn-success mt-2" @click="reload">リロード</button>
+    </div>
+    <QrcodeStream
+      v-else
+      :formats="['qr_code']"
+      @detect="onDetect"
+      @error="onError"
+    ></QrcodeStream>
   </div>
   <div v-else class="mt-4">
     <div>
