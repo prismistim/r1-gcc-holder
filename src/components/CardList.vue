@@ -1,13 +1,30 @@
 <script setup lang="ts">
+import { Location, locations } from '../statics/location'
+import { useStore } from '../composables/useStore'
 import Card from './Card.vue'
+
+const store = useStore()
+
+const cards = store.getStoredData()?.cards
+
+const targetLocationCards = (locationId: Location['id']) => {
+  return cards?.filter((item) => item.locationId === locationId)
+}
 </script>
 
 <template>
-  <div>
-    <div class="text-xl font-bold">ららぽーと新三郷</div>
-    <div class="mt-2 flex overflow-scroll gap-4 w-full py-4">
-      <Card v-for="n in 8" :key="n"></Card>
-      <Card></Card>
-    </div>
+  <div v-for="location in locations" :key="location.id">
+    <template v-if="targetLocationCards(location.id)?.length !== 0">
+      <div class="text-xl font-bold">{{ location.name }}</div>
+      <div class="mt-2 flex overflow-scroll gap-4 w-full py-4">
+        <Card
+          v-for="item in targetLocationCards(location.id)"
+          :key="item.id"
+          :id="item.id"
+          :issue-date="item.issueDate"
+          :location-id="item.locationId"
+        ></Card>
+      </div>
+    </template>
   </div>
 </template>

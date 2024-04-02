@@ -3,6 +3,7 @@ import Home from '../pages/index.vue'
 import List from '../pages/list.vue'
 import Add from '../pages/add.vue'
 import Detail from '../pages/detail.vue'
+import ReCharge from '../pages/recharge.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -24,6 +25,11 @@ const routes: RouteRecordRaw[] = [
     name: 'Detail',
     path: '/detail/:id',
     component: Detail
+  },
+  {
+    name: 'ReCharge',
+    path: '/recharge/:id',
+    component: ReCharge
   }
 ]
 

@@ -2,21 +2,40 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
+import { useStore } from '../composables/useStore'
 import { QrcodeStream } from 'vue-qrcode-reader'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import type { QR } from '../types/qr'
+import type { StoredDataItem } from '../types/storedData'
+import { locations } from '../statics/location'
 
 const router = useRouter()
+const store = useStore()
+const error = ref('')
 
-const formData = ref({
+const formData = ref<Omit<StoredDataItem, 'id'>>({
   codeValue: '',
   issueDate: '',
-  locationId: '',
+  locationId: 1,
 })
 
 const onDetect = async (item: QR[]) => {
   formData.value.codeValue = item[0].rawValue
+}
+
+const onError = (err: DOMException) => {
+  error.value = `[${err.name}] `
+
+  if (err.name === 'NotAllowedError') {
+    error.value += 'QRコードをスキャンするにはカメラの使用を許可してください。'
+  } else if (err.name === 'NotFoundError') {
+    error.value += '使用できるカメラが見つかりません。'
+  } else if (err.name === 'NotReadableError') {
+    error.value += 'このカメラは他のアプリケーションで使用されています。'
+  } else {
+    error.value += '不明なエラーです。'
+  }
 }
 
 const clearCodeValue = () => {
@@ -26,26 +45,47 @@ const clearCodeValue = () => {
 const today = computed(() => {
   return dayjs().format('YYYY-MM-DD')
 })
+
+const setFormData = () => {
+  store.addItem({
+    ...formData.value,
+    issueDate: dayjs(formData.value.issueDate).format('YYYY-MM-DD'),
+  })
+  router.push('/list')
+}
+
+const reload = () => {
+  window.location.reload()
+}
 </script>
 
 <template>
   <div class="text-xl font-bold">カードを追加する</div>
   <div v-if="!formData.codeValue" class="mt-4">
-    <QrcodeStream :formats="['qr_code']" @detect="onDetect"></QrcodeStream>
+    <div v-if="error">
+      <p>
+        {{ error }}
+      </p>
+      <button class="btn btn-success mt-2" @click="reload">リロード</button>
+    </div>
+    <QrcodeStream
+      v-else
+      :formats="['qr_code']"
+      @detect="onDetect"
+      @error="onError"
+    ></QrcodeStream>
   </div>
   <div v-else class="mt-4">
     <div>
       <div>QRコード</div>
-      <button class="btn btn-error rounded-md mt-2" @click="clearCodeValue">
+      <button class="btn btn-error w-full mt-2" @click="clearCodeValue">
         再読取り
       </button>
     </div>
     <div class="mt-4">
       <label>発行日</label>
       <div class="mt-2">
-        <button class="btn rounded-md" @click="formData.issueDate = today">
-          今日
-        </button>
+        <button class="btn" @click="formData.issueDate = today">今日</button>
         <VueDatePicker
           v-model="formData.issueDate"
           :enable-time-picker="false"
@@ -63,16 +103,13 @@ const today = computed(() => {
         v-model="formData.locationId"
         class="select select-bordered w-full rounded-md mt-2"
       >
-        <option disabled>埼玉県</option>
-        <option value="saitama_lala_sinmisato">ららぽーと新三郷</option>
-        <option disabled>大阪府</option>
-        <option value="osaka_sakai">堺</option>
+        <option v-for="item in locations" :key="item.id" :value="item.id">
+          {{ item.name }}
+        </option>
       </select>
     </div>
     <div class="mt-6 text-center">
-      <button class="btn btn-primary rounded-md" @click="router.push('/list')">
-        追加
-      </button>
+      <button class="btn btn-primary" @click="setFormData">追加</button>
     </div>
   </div>
 </template>
