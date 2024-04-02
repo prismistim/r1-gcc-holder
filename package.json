@@ -30,6 +30,7 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
+    "vite-plugin-pwa": "^0.19.7",
     "vue-qrcode": "^2.2.2",
     "vue-qrcode-reader": "^5.5.3",
     "vue-router": "^4.3.0",
