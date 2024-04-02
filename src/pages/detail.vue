@@ -2,6 +2,7 @@
 import { ref, watch, computed } from 'vue'
 import VueQrcode from 'vue-qrcode'
 import Card from '../components/Card.vue'
+import AddCalendarEvent from '../components/AddCalendarEvent.vue'
 import { useStore } from '../composables/useStore'
 import { useRoute } from 'vue-router'
 import router from '../router'
@@ -126,8 +127,7 @@ const deleteItem = () => {
     <div class="mt-4">
       <div>カレンダーにリマインドを追加</div>
       <div class="flex flex-wrap gap-4 justify-center">
-        <button class="btn mt-4">Googleカレンダー</button>
-        <button class="btn mt-4">iCal</button>
+        <AddCalendarEvent :id="parseInt(route.params.id as string)"></AddCalendarEvent>
       </div>
     </div>
     <div class="mt-4">
