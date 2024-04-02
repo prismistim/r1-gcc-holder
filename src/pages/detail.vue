@@ -19,13 +19,13 @@ const progress = ref(0)
 const maxShowTime = 10000
 
 const targetCard = computed(() => {
-  if (typeof route.params.id !== 'string') {
+  if (Array.isArray(route.params.id)) {
     return null
   }
 
   const result = store
     .getStoredData()
-    ?.cards.find((item) => item.id === parseInt(route.params.id))
+    ?.cards.find((item) => item.id === parseInt(route.params.id as string))
 
   return result ?? null
 })
@@ -85,7 +85,7 @@ const deleteItem = () => {
             light: '#ffffffff',
           }"
           type="image/png"
-          :scale="6"
+          :scale="4"
         ></VueQrcode>
         <button
           v-else

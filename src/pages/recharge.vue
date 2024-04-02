@@ -44,7 +44,7 @@ if (!route.params.id || typeof route.params.id !== 'string') {
           format="yyyy-MM-dd"
           dark
           auto-apply
-          :min-date="store.getTargetItem(parseInt(route.params.id))?.issueDate"
+          :min-date="store.getTargetItem(parseInt(route.params.id as string))?.issueDate"
           :max-date="new Date()"
           class="mt-2"
         ></VueDatePicker>
