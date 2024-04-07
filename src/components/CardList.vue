@@ -29,6 +29,6 @@ const targetLocationCards = (locationId: Location['id']) => {
   </div>
   <div v-if="!cards || cards.length === 0">
     <div class="text-xl font-bold">カードが登録されていません</div>
-    <p>右下の+ボタンを押して登録してください</p>
+    <p class="mt-2">右下の+ボタンを押して登録してください</p>
   </div>
 </template>
