@@ -85,6 +85,7 @@ export const useStore = () => {
   }
 
   return {
+    initStore,
     getStoredData,
     getTargetItem,
     addItem,
