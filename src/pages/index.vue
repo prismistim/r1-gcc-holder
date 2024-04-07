@@ -17,7 +17,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="text-xl">r1-gcc-holder</div>
+  <div class="text-xl font-bold">r1-gcc-holder</div>
+  <div class="my-4 flex justify-center">
+    <img src="/logo.png" class="w-64 rounded-md">
+  </div>
   <div class="text-lg font-bold mt-4">このアプリは何？</div>
   <ul class="list-disc list-inside mt-2">
     <li>某アミューズメント施設のプリペイドカードの保存、表示が可能なアプリ</li>
