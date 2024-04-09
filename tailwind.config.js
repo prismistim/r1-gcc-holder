@@ -8,14 +8,20 @@ export default {
   daisyui: {
     themes: [
       {
-        mytheme: {
-          primary: '#a991f7',
-          secondary: '#f6d860',
-          accent: '#37cdbe',
-          neutral: '#222222',
-          'base-100': '#222222',
+        'gcch_light': {
+          primary: '#f43f5e',
+          'primary-content': '#262626',
+          secondary: '#6b7280',
+          accent: '#2dd4bf',
+          neutral: '#e5e7eb',
+          'base-100': '#f3f4f6',
+          info: '#38bdf8',
+          success: '#4ade80',
+          warning: '#fbbf24',
+          error: '#ef4444',
         },
       },
+      'black',
     ],
   },
 }

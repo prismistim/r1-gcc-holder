@@ -16,7 +16,7 @@ const targetLocationCards = (locationId: Location['id']) => {
   <div v-for="location in locations" :key="location.id">
     <template v-if="targetLocationCards(location.id)?.length !== 0">
       <div class="text-xl font-bold">{{ location.name }}</div>
-      <div class="mt-2 flex overflow-scroll gap-4 w-full py-4">
+      <div class="mt-2 flex overflow-scroll gap-4 w-full py-2">
         <Card
           v-for="item in targetLocationCards(location.id)"
           :key="item.id"

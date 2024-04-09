@@ -28,22 +28,23 @@ const targetLocation = computed(() => {
 <template>
   <RouterLink
     :to="`/detail/${props.id}`"
-    class="min-w-56 card bg-neutral-950 shadow-lg"
+    class="min-w-56 card bg-white shadow-lg"
   >
     <figure
       :class="[
-        'h-24',
+        'h-20',
         remainDays >= 0
-          ? 'bg-gradient-to-b from-error to-neutral-950'
-          : 'bg-gradient-to-b from-neutral-500 to-neutral-950',
+          ? 'bg-gradient-to-b from-primary to-white'
+          : 'bg-gradient-to-b from-neutral-500 to-white',
       ]"
     ></figure>
     <div class="card-body">
-      <div class="text-2xl font-bold">
+      <div class="text-4xl font-bold">
         <span v-if="remainDays === 0" class="text-red-500">Today</span>
         <span v-else-if="remainDays < 0">Expired...</span>
         <span v-else>
-          {{ remainDays }} day<span v-if="remainDays > 1">s</span>
+          {{ remainDays }}
+          <span class="text-2xl"> day<span v-if="remainDays > 1">s</span> </span>
         </span>
       </div>
       <div v-show="props.showLocation" class="font-bold">

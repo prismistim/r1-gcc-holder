@@ -9,10 +9,13 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import type { QR } from '../types/qr'
 import type { StoredDataItem } from '../types/storedData'
 import { locations } from '../statics/location'
+import BackBtn from '../components/BackBtn.vue'
 
 const router = useRouter()
 const store = useStore()
 const error = ref('')
+
+const MODE = import.meta.env.MODE
 
 const formData = ref<Omit<StoredDataItem, 'id'>>({
   codeValue: '',
@@ -60,7 +63,8 @@ const reload = () => {
 </script>
 
 <template>
-  <div class="text-xl font-bold">カードを追加する</div>
+  <BackBtn></BackBtn>
+  <div class="mt-2 text-xl font-bold">カードを追加する</div>
   <div v-if="!formData.codeValue" class="mt-4">
     <div v-if="error">
       <p>
@@ -74,11 +78,12 @@ const reload = () => {
       @detect="onDetect"
       @error="onError"
     ></QrcodeStream>
+    <button v-if="MODE !== 'production'" class="btn" @click="formData.codeValue = 'hogehoge'">ダミーデータ挿入</button>
   </div>
   <div v-else class="mt-4">
     <div>
       <div>QRコード</div>
-      <button class="btn btn-error w-full mt-2" @click="clearCodeValue">
+      <button class="btn w-full mt-2" @click="clearCodeValue">
         再読取り
       </button>
     </div>
@@ -90,7 +95,6 @@ const reload = () => {
           v-model="formData.issueDate"
           :enable-time-picker="false"
           format="yyyy-MM-dd"
-          dark
           auto-apply
           :max-date="new Date()"
           class="mt-2"
@@ -109,7 +113,7 @@ const reload = () => {
       </select>
     </div>
     <div class="mt-6 text-center">
-      <button class="btn btn-primary" @click="setFormData">追加</button>
+      <button class="btn btn-primary text-white" @click="setFormData">追加</button>
     </div>
   </div>
 </template>
