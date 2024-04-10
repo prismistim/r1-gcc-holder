@@ -12,6 +12,9 @@ export default defineConfig({
       devOptions: {
         enabled: true,
       },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}']
+      },
       includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png'],
       manifest: {
         name: 'r1-gcc-holder',
