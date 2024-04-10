@@ -7,7 +7,7 @@ const { offlineReady } = useRegisterSW()
 <template>
   <div class="toast" v-if="offlineReady">
     <div class="alert alert-info">
-      <span>aaaa</span>
+      <span>Offline Ready</span>
     </div>
   </div>
 </template>
