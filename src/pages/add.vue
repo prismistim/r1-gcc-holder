@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
 import { useStore } from '../composables/useStore'
@@ -9,10 +9,13 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import type { QR } from '../types/qr'
 import type { StoredDataItem } from '../types/storedData'
 import { locations } from '../statics/location'
+import BackBtn from '../components/BackBtn.vue'
 
 const router = useRouter()
 const store = useStore()
 const error = ref('')
+
+const MODE = import.meta.env.MODE
 
 const formData = ref<Omit<StoredDataItem, 'id'>>({
   codeValue: '',
@@ -57,10 +60,15 @@ const setFormData = () => {
 const reload = () => {
   window.location.reload()
 }
+
+onMounted(() => {
+  formData.value.issueDate = today.value
+})
 </script>
 
 <template>
-  <div class="text-xl font-bold">カードを追加する</div>
+  <BackBtn></BackBtn>
+  <div class="mt-2 text-xl font-bold">カードを追加する</div>
   <div v-if="!formData.codeValue" class="mt-4">
     <div v-if="error">
       <p>
@@ -74,34 +82,38 @@ const reload = () => {
       @detect="onDetect"
       @error="onError"
     ></QrcodeStream>
+    <button
+      v-if="MODE !== 'production'"
+      class="btn"
+      @click="formData.codeValue = 'hogehoge'"
+    >
+      ダミーデータ挿入
+    </button>
   </div>
   <div v-else class="mt-4">
     <div>
       <div>QRコード</div>
-      <button class="btn btn-error w-full mt-2" @click="clearCodeValue">
-        再読取り
-      </button>
+      <button class="btn w-full mt-2" @click="clearCodeValue">再読取り</button>
     </div>
     <div class="mt-4">
       <label>発行日</label>
       <div class="mt-2">
-        <button class="btn" @click="formData.issueDate = today">今日</button>
         <VueDatePicker
           v-model="formData.issueDate"
           :enable-time-picker="false"
           format="yyyy-MM-dd"
-          dark
           auto-apply
           :max-date="new Date()"
-          class="mt-2"
+          input-class-name="dp-issue-date"
         ></VueDatePicker>
+        <button class="btn mt-2" @click="formData.issueDate = today">今日</button>
       </div>
     </div>
     <div class="mt-4">
       <label>店舗</label>
       <select
         v-model="formData.locationId"
-        class="select select-bordered w-full rounded-md mt-2"
+        class="select select-bordered bg-white w-full rounded-md mt-2"
       >
         <option v-for="item in locations" :key="item.id" :value="item.id">
           {{ item.name }}
@@ -109,7 +121,18 @@ const reload = () => {
       </select>
     </div>
     <div class="mt-6 text-center">
-      <button class="btn btn-primary" @click="setFormData">追加</button>
+      <button class="btn w-48 btn-primary text-white" @click="setFormData">
+        追加
+      </button>
     </div>
   </div>
 </template>
+
+<style>
+.dp-issue-date {
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 3rem;
+  min-height: 3rem;
+}
+</style>

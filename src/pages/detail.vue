@@ -6,6 +6,7 @@ import AddCalendarEvent from '../components/AddCalendarEvent.vue'
 import { useStore } from '../composables/useStore'
 import { useRoute } from 'vue-router'
 import router from '../router'
+import BackBtn from '../components/BackBtn.vue'
 
 const store = useStore()
 const route = useRoute()
@@ -69,70 +70,75 @@ const deleteItem = () => {
 </script>
 
 <template>
-  <template v-if="targetCard">
+  <BackBtn></BackBtn>
+  <div v-if="targetCard" class="mt-2">
     <Card
       show-location
       :id="targetCard.id"
       :issue-date="targetCard.issueDate"
       :location-id="targetCard.locationId"
-    ></Card>
-    <div class="mt-4 p-7 bg-black rounded-md">
-      <div class="h-48 flex items-center justify-center">
-        <VueQrcode
-          v-if="isShowQRCode"
-          :value="targetCard.codeValue"
-          :color="{
-            dark: '#000000ff',
-            light: '#ffffffff',
-          }"
-          type="image/png"
-          :scale="4"
-        ></VueQrcode>
-        <button
-          v-else
-          class="h-full w-48 btn rounded-md bg-neutral-800"
-          @click="switchQRCodeDisplay"
-        >
-          QRコードを表示
-        </button>
-      </div>
-      <div class="flex items-center gap-2 justify-center mt-4">
-        <progress
-          class="progress progress-error w-56"
-          :value="progress"
-          :max="maxShowTime"
-        ></progress>
-        <button
-          :disabled="!isShowQRCode"
-          class="btn btn-square btn-sm"
-          @click="switchQRCodeDisplay"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+    >
+      <div class="mt-7 mx-7 p-7 bg-white rounded-md">
+        <div class="h-48 flex items-center justify-center">
+          <VueQrcode
+            v-if="isShowQRCode"
+            :value="targetCard.codeValue"
+            :color="{
+              dark: '#000000ff',
+              light: '#ffffffff',
+            }"
+            type="image/png"
+            :scale="4"
+          ></VueQrcode>
+          <button
+            v-else
+            class="h-full w-48 btn rounded-md text-md bg-secondary"
+            @click="switchQRCodeDisplay"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
+            QRコードを表示
+          </button>
+        </div>
+        <div class="flex items-center gap-2 justify-center mt-4">
+          <progress
+            class="progress progress-primary w-56"
+            :value="progress"
+            :max="maxShowTime"
+          ></progress>
+          <button
+            :disabled="!isShowQRCode"
+            class="btn btn-square btn-sm"
+            @click="switchQRCodeDisplay"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </Card>
+    <div class="divider"></div>
+    <div class="mt-4">
+      <div class="font-semibold">カレンダーにリマインドを追加</div>
+      <div class="flex flex-wrap gap-2">
+        <AddCalendarEvent
+          :id="parseInt(route.params.id as string)"
+        ></AddCalendarEvent>
       </div>
     </div>
     <div class="mt-4">
-      <div>カレンダーにリマインドを追加</div>
-      <div class="flex flex-wrap gap-4 justify-center">
-        <AddCalendarEvent :id="parseInt(route.params.id as string)"></AddCalendarEvent>
-      </div>
-    </div>
-    <div class="mt-4">
-      <div>操作</div>
-      <div class="flex flex-wrap gap-4 justify-center">
+      <div class="font-semibold">操作</div>
+      <div class="flex flex-wrap gap-2">
         <button
           class="btn btn-secondary mt-4"
           @click="
@@ -141,10 +147,13 @@ const deleteItem = () => {
         >
           有効期限の更新（再チャージ）
         </button>
-        <button class="btn btn-error mt-4" @click="deleteItem">
+        <button
+          class="btn btn-error text-white font-medium mt-4"
+          @click="deleteItem"
+        >
           このカードを削除する
         </button>
       </div>
     </div>
-  </template>
+  </div>
 </template>
