@@ -20,7 +20,8 @@ export default defineConfig({
         name: 'r1-gcc-holder',
         short_name: 'gcch',
         description: 'Game Charge Card Holder for R1',
-        theme_color: '#000',
+        lang: 'ja',
+        theme_color: '#F95D5D',
         icons: [
           {
             src: 'pwa-64x64.png',
