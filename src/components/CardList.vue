@@ -2,20 +2,23 @@
 import { Location, locations } from '../statics/location'
 import { useStore } from '../composables/useStore'
 import Card from './Card.vue'
+import dayjs from 'dayjs'
 
 const store = useStore()
 
 const cards = store.getStoredData()?.cards
 
 const targetLocationCards = (locationId: Location['id']) => {
-  return cards?.filter((item) => item.locationId === locationId)
+  return cards
+    ?.filter((item) => item.locationId === locationId)
+    .sort((a, b) => dayjs(a.issueDate).diff(b.issueDate, 'day'))
 }
 </script>
 
 <template>
-  <div v-for="location in locations" :key="location.id">
+  <div v-for="location in locations" :key="location.id" class="mt-4">
     <template v-if="targetLocationCards(location.id)?.length !== 0">
-      <div class="text-xl font-bold">{{ location.name }}</div>
+      <div class="text-xl font-medium">{{ location.name }}</div>
       <div class="mt-2 flex overflow-scroll gap-4 w-full py-2">
         <Card
           v-for="item in targetLocationCards(location.id)"

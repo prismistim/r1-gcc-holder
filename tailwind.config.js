@@ -13,7 +13,7 @@ export default {
         'gcch_light': {
           primary: '#f43f5e',
           'primary-content': '#262626',
-          secondary: '#6b7280',
+          secondary: '#ddd',
           accent: '#2dd4bf',
           neutral: '#e5e7eb',
           'base-100': '#f3f4f6',
@@ -21,6 +21,7 @@ export default {
           success: '#4ade80',
           warning: '#fbbf24',
           error: '#ef4444',
+          white: '#ffffff'
         },
       },
       'black',

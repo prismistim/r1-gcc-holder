@@ -62,7 +62,7 @@ onMounted(() => {
         初期化を行うと、現在登録されているデータはすべて削除されます。よろしいですか？
       </p>
       <div class="form-control mt-6">
-        <label class="cursor-pointer flex gap-x-2">
+        <label class="cursor-pointer flex gap-x-2 ">
           <input
             v-model="isAgreeDelete"
             type="checkbox"
@@ -77,7 +77,7 @@ onMounted(() => {
             <button class="btn">キャンセル</button>
           </form>
           <button
-            class="btn btn-error"
+            class="btn btn-error text-white"
             :disabled="!isAgreeDelete"
             @click="initData"
           >
