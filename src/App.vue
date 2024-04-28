@@ -2,6 +2,7 @@
 import { RouterView } from 'vue-router'
 import NavBar from './components/NavBar.vue'
 import ReloadToast from './components/ReloadToast.vue'
+import MyFooter from './components/MyFooter.vue'
 </script>
 
 <template>
@@ -10,4 +11,5 @@ import ReloadToast from './components/ReloadToast.vue'
     <RouterView></RouterView>
   </div>
   <ReloadToast></ReloadToast>
+  <MyFooter></MyFooter>
 </template>
