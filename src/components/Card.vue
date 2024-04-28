@@ -51,7 +51,7 @@ const targetLocation = computed(() => {
       <div class="">
         {{ dayjs().add(remainDays, 'day').format('YYYY-MM-DD') }}
       </div>
-      <div v-show="props.showLocation" class="flex gap-x-2">
+      <div v-show="props.showLocation" class="flex flex-wrap gap-x-2">
         <span> @ {{ targetLocation?.name }} </span>
         <span>( {{ props.issueDate }} )</span>
       </div>
