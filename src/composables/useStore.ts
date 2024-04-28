@@ -1,6 +1,8 @@
 import { onMounted } from 'vue'
 import type { StoredData, StoredDataItem } from '../types/storedData'
 
+const targetLocalStorageKey = 'data'
+
 export const useStore = () => {
   onMounted(() => {
     if (!getStoredData()) {
@@ -10,7 +12,7 @@ export const useStore = () => {
 
   const initStore = () => {
     localStorage.setItem(
-      'card',
+      targetLocalStorageKey,
       JSON.stringify({
         cards: [],
       }),
@@ -18,7 +20,7 @@ export const useStore = () => {
   }
 
   const getStoredData = (): StoredData | null => {
-    const storedStr = localStorage.getItem('card')
+    const storedStr = localStorage.getItem(targetLocalStorageKey)
 
     if (!storedStr) {
       return null
@@ -43,7 +45,7 @@ export const useStore = () => {
       id: storedData.cards.length + 1,
       ...payload,
     })
-    localStorage.setItem('card', JSON.stringify(storedData))
+    localStorage.setItem(targetLocalStorageKey, JSON.stringify(storedData))
   }
 
   const changeItemIssueDate = (payload: {
@@ -61,7 +63,7 @@ export const useStore = () => {
     targetItem.issueDate = payload.issueDate
 
     localStorage.setItem(
-      'card',
+      targetLocalStorageKey,
       JSON.stringify({
         cards: storedData.cards
           .filter((item) => item.id !== payload.id)
@@ -77,7 +79,7 @@ export const useStore = () => {
     const payload = storedData.cards.filter((item) => item.id !== id)
 
     localStorage.setItem(
-      'card',
+      targetLocalStorageKey,
       JSON.stringify({
         cards: payload,
       }),
