@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import NavBar from './components/NavBar.vue'
-import ReloadToast from './components/ReloadToast.vue'
+import MyFooter from './components/MyFooter.vue'
 </script>
 
 <template>
@@ -9,5 +9,5 @@ import ReloadToast from './components/ReloadToast.vue'
   <div class="container px-8 my-4 mx-auto">
     <RouterView></RouterView>
   </div>
-  <ReloadToast></ReloadToast>
+  <MyFooter></MyFooter>
 </template>
