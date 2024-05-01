@@ -3,11 +3,17 @@ import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 
 import packageJson from './package.json'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   define: {
-    '_VERSION_': JSON.stringify(packageJson.version)
+    _APP_VERSION_: JSON.stringify(packageJson.version),
+  },
+  resolve: {
+    alias: {
+      '@/': path.resolve(__dirname, 'src/')
+    }
   },
   plugins: [
     vue(),
@@ -18,7 +24,7 @@ export default defineConfig({
         enabled: true,
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png'],
       manifest: {
@@ -32,32 +38,32 @@ export default defineConfig({
           {
             src: 'pwa-64x64.png',
             sizes: '64x64',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'pwa-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'pwa-512x512.png',
             sizes: '512x512',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'maskable-icon-192x192.png',
             sizes: '192x192',
             type: 'image/png',
-            purpose: 'maskable'
+            purpose: 'maskable',
           },
           {
             src: 'maskable-icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'maskable'
-          }
-        ]
-      }
+            purpose: 'maskable',
+          },
+        ],
+      },
     }),
   ],
 })
