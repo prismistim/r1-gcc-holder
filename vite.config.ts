@@ -2,8 +2,13 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 
+import packageJson from './package.json'
+
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    '_VERSION_': JSON.stringify(packageJson.version)
+  },
   plugins: [
     vue(),
     VitePWA({
@@ -17,6 +22,7 @@ export default defineConfig({
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png'],
       manifest: {
+        id: 'net.snowsphere.gcch',
         name: 'r1-gcc-holder',
         short_name: 'gcch',
         description: 'Game Charge Card Holder for R1',
