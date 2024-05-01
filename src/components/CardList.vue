@@ -3,29 +3,41 @@ import { Location, locations } from '../statics/location'
 import { useStore } from '../composables/useStore'
 import Card from './Card.vue'
 import dayjs from 'dayjs'
+import { StoredDataItem } from '../types/storedData';
 
 const store = useStore()
 
 const cards = store.getStoredData()?.cards
 
 const targetLocationCards = (locationId: Location['id']) => {
-  return cards
-    ?.filter((item) => item.locationId === locationId)
-    .sort((a, b) => dayjs(a.issueDate).diff(b.issueDate, 'day'))
+  const targets = cards?.filter((item) => item.locationId === locationId)
+
+  const activeTargets = targets?.filter((item) => dayjs(dayjs()).diff(item.issueDate, 'day') < 180) ?? []
+  const inActiveTargets = targets?.filter((item) => dayjs(dayjs()).diff(item.issueDate, 'day') > 180) ?? []
+
+  const sortFn = (a: StoredDataItem, b: StoredDataItem) => dayjs(a.issueDate).diff(b.issueDate, 'day')
+
+  activeTargets?.sort(sortFn)
+  inActiveTargets?.sort(sortFn)
+ 
+  return activeTargets.concat(inActiveTargets)
 }
 </script>
 
 <template>
-  <div v-for="location in locations" :key="location.id" class="mt-4">
+  <div v-for="location in locations" :key="location.id" class="w-full">
     <template v-if="targetLocationCards(location.id)?.length !== 0">
-      <div class="text-xl font-medium">{{ location.name }}</div>
-      <div class="mt-2 flex overflow-scroll gap-4 w-full py-2">
+      <div class="text-lg md:text-xl font-medium sticky top-0">{{ location.name }}</div>
+      <div
+        :class="'flex flex-wrap sm:flex-nowrap mt-2 overflow-scroll gap-4 w-full py-2'"
+      >
         <Card
           v-for="item in targetLocationCards(location.id)"
           :key="item.id"
           :id="item.id"
           :issue-date="item.issueDate"
           :location-id="item.locationId"
+          :show-location="false"
         ></Card>
       </div>
     </template>
