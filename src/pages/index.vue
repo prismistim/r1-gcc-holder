@@ -22,7 +22,11 @@ onMounted(() => {
   </div>
   <div class="text-3xl font-bold text-center">r1-gcc-holder</div>
   <div class="text-center mt-2">
-    <a class="text-lg inline-flex justify-center items-center py-1/2 text-primary font-semibold hover:opacity-50 transition-opacity duration-300 hover:cursor-pointer">
+    <a
+      href="https://github.com/prismistim/r1-gcc-holder"
+      target="_blank"
+      class="text-lg inline-flex justify-center items-center py-1/2 text-primary font-semibold hover:opacity-50 transition-opacity duration-300 hover:cursor-pointer"
+    >
       <span class="mr-1 material-symbols-outlined">open_in_new</span>GitHub
     </a>
   </div>
