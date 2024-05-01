@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useHead } from '@vueuse/head'
 import { RouterView } from 'vue-router'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import NavBar from './components/NavBar.vue'
