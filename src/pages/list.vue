@@ -7,7 +7,9 @@ const router = useRouter()
 </script>
 
 <template>
-  <CardList class="mt-6"></CardList>
+  <div class="flex flex-wrap gap-y-4">
+    <CardList></CardList>
+  </div>
   <AddBtn
     class="fixed bottom-0 right-0 m-4 z-20"
     @click="router.push('/add')"

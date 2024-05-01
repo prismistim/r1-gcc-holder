@@ -35,7 +35,7 @@ onMounted(() => {
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal rounded-box gap-x-2 text-rose-500">
-        <li>
+        <li v-show="$route.path !== '/'">
           <button @click="goToIndexPage">
             <span class="material-symbols-outlined">info</span>
           </button>
@@ -47,7 +47,7 @@ onMounted(() => {
             <span class="material-symbols-outlined swap-on">dark_mode</span>
           </label>
         </li> -->
-        <li>
+        <li v-show="$route.path !== '/'">
           <button :disabled="$route.name === 'Home'" onclick="delete_modal.showModal()">
             <span class="material-symbols-outlined">delete</span>
           </button>

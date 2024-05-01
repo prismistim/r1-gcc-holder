@@ -71,7 +71,7 @@ const deleteItem = () => {
 
 <template>
   <BackBtn></BackBtn>
-  <div v-if="targetCard" class="mt-2">
+  <div v-if="targetCard" class="sm:max-w-96 mx-auto mt-2">
     <Card
       show-location
       :id="targetCard.id"
