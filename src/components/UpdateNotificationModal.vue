@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { version } from '../../config.ts'
+import { version } from '../config'
 
 const modalElement = ref<HTMLDialogElement>()
 

@@ -23,5 +23,8 @@
   },
   "ignorePatterns": [
     "**.md"
-  ]
+  ],
+  "globals": {
+    "_VERSION_": false
+  }
 }
