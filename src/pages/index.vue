@@ -18,16 +18,25 @@ onMounted(() => {
 
 <template>
   <div class="my-4 py-4 flex flex-wrap justify-center">
-    <img src="/logo.svg" class="w-32">
+    <img src="/logo.svg" class="w-32" />
   </div>
   <div class="text-3xl font-bold text-center">r1-gcc-holder</div>
+  <div class="text-center mt-2">
+    <a class="text-lg inline-flex justify-center items-center py-1/2 text-primary font-semibold hover:opacity-50 transition-opacity duration-300 hover:cursor-pointer">
+      <span class="mr-1 material-symbols-outlined">open_in_new</span>GitHub
+    </a>
+  </div>
   <div class="mx-auto mt-8 lg:px-24 max-w-[960px]">
     <div class="text-md md:text-lg font-bold mt-4">このアプリは何？</div>
     <ul class="text-sm md:text-md list-disc list-inside mt-2">
-      <li>某アミューズメント施設のプリペイドカードの保存、表示が可能なアプリ</li>
+      <li>
+        某アミューズメント施設のプリペイドカードの保存、表示が可能なアプリ
+      </li>
       <li>カードに記されたQRコードと同じデータが読み取り可能なコードを表示</li>
       <li>有効期限をカレンダーにリマインドとして追加可能</li>
-      <li>オフラインで動作可能（ここで登録したデータはすべて端末上で管理します）</li>
+      <li>
+        オフラインで動作可能（ここで登録したデータはすべて端末上で管理します）
+      </li>
     </ul>
     <div class="text-md md:text-lg font-bold mt-4">注意事項</div>
     <ul class="list-disc list-inside mt-2 text-sm md:text-md">
