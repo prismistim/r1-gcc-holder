@@ -22,4 +22,14 @@ export const locations: Location[] = [
     prefId: 14,
     name: '横浜駅西口',
   },
+  {
+    id: 4,
+    prefId: 29,
+    name: '奈良 ミ・ナーラ',
+  },
+  {
+    id: 5,
+    prefId: 13,
+    name: '吉祥寺',
+  },
 ]
