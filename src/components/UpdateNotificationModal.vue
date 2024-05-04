@@ -46,7 +46,7 @@ onMounted(() => {
       <h3 class="font-bold text-lg">更新しました</h3>
       <p class="py-4">最新バージョンに更新しました</p>
       <code>{{ version }}</code>
-      <div class="p-3 bg-neutral-200 mt-2 rounded-md">
+      <div class="p-3 bg-neutral-200 mt-2 rounded-md max-h-[350px] overflow-scroll">
         <div class="space-y-3">
           <div
             v-for="item of getDescriptionByBeforeUpdatedDiff()"
@@ -61,7 +61,7 @@ onMounted(() => {
       </div>
       <div class="modal-action">
         <form method="dialog">
-          <button class="btn" @click="setCurrentVersion">Close</button>
+          <button class="btn" @click="setCurrentVersion">閉じる</button>
         </form>
       </div>
     </div>
