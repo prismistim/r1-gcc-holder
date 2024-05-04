@@ -23,12 +23,17 @@ const targetLocation = computed(() => {
   if (!targetItem.value) return
   return locations.find((item) => item.id === targetItem.value?.locationId)
 })
+
+const expiredDate = computed(() => {
+  if (!targetItem.value) return
+  else return dayjs(targetItem.value.issueDate).add(180, 'days').format('YYYYMMDD')
+})
 </script>
 
 <template>
   <a
-    v-if="props.id && targetItem"
-    :href="`https://www.google.com/calendar/event?action=TEMPLATE&text=[${targetLocation?.name}] ゲームチャージカード有効期限日&dates=${dayjs(targetItem.issueDate).add(180, 'day').format('YYYYMMDD')}/${dayjs(targetItem.issueDate).add(180, 'day').format('YYYYMMDD')}`"
+    v-if="props.id && targetItem && expiredDate"
+    :href="`https://www.google.com/calendar/event?action=TEMPLATE&text=[${targetLocation?.name}] ゲームチャージカード有効期限日&dates=${expiredDate}}/${expiredDate}`"
     target="_blank"
     class="btn mt-4"
   >
