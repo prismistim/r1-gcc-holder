@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useStore } from '@/composables/useStore'
 import { version } from '../config'
 import { changeLog } from '@/statics/changeLog'
 
-const store = useStore()
 const modalElement = ref<HTMLDialogElement>()
 
 const setCurrentVersion = () => {
