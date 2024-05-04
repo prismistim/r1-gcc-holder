@@ -7,6 +7,13 @@ export type ChangeLogItem = {
 
 export const changeLog: ChangeLogItem[] = [
   {
+    version: '0.1.5',
+    updated_date: '2024-05-05',
+    title: '機能改善、その他追加',
+    description:
+      'カレンダーリマインド用のURLの作成方法を一部修正、注意事項の文言追加'
+  },
+  {
     version: '0.1.41',
     updated_date: '2024-05-04',
     title: '機能、表示改善',
