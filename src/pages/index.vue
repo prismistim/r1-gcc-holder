@@ -1,18 +1,31 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from '@/composables/useStore'
 import { version } from '../config'
 
 const router = useRouter()
+const store = useStore()
+const isAgreeDelete = ref(false)
 
 const onConfirm = () => {
   sessionStorage.setItem('confirm_notice', 'ok')
   router.push('/list')
 }
 
+const isConfirmed = computed(() => {
+  return sessionStorage.getItem('confirm_notice') === 'ok'
+})
+
+const initData = () => {
+  localStorage.clear()
+  sessionStorage.clear()
+  location.reload()
+}
+
 onMounted(() => {
-  if (sessionStorage.getItem('confirm_notice') === 'ok') {
-    router.push('/list')
+  if (!store.getStoredData()) {
+    store.initStore()
   }
 })
 </script>
@@ -58,7 +71,7 @@ onMounted(() => {
       <li>カードに記されたQRコードと同じデータが読み取り可能なコードを表示</li>
       <li>有効期限をカレンダーにリマインドとして追加可能</li>
       <li>
-        オフラインで動作可能（ここで登録したデータはすべて端末上で管理します）
+        PWAとしてインストール、オフラインで動作可能（ここで登録したデータはすべて端末上で管理します）
       </li>
     </ul>
     <div class="text-md md:text-lg font-bold mt-4">注意事項</div>
@@ -74,9 +87,68 @@ onMounted(() => {
       </li>
     </ul>
     <div class="text-center mt-6">
-      <button class="btn btn-primary text-white" @click="onConfirm">
+      <button
+        v-show="!isConfirmed"
+        class="btn btn-primary text-white"
+        @click="onConfirm"
+      >
         注意事項を理解した上で利用を開始する
       </button>
     </div>
+    <div class="card ring-1 ring-error mt-6" v-show="isConfirmed">
+      <div class="card-body">
+        <h2 class="card-title text-error">
+          <span class="material-symbols-outlined">warning</span>危険地帯
+        </h2>
+        <div class="text-md font-bold">データの初期化</div>
+        <p class="text-sm">
+          端末内に保存されているすべてのデータを削除します。
+        </p>
+        <div class="mt-2">
+          <button
+            v-show="isConfirmed"
+            class="btn btn-error text-white w-full md:w-48"
+            onclick="delete_modal.showModal()"
+          >
+            データを初期化する
+          </button>
+        </div>
+      </div>
+    </div>
+    <dialog id="delete_modal" class="modal">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg">データの初期化</h3>
+        <p class="mt-2">
+          初期化を行うと、現在登録されているデータはすべて削除されます。よろしいですか？
+        </p>
+        <div class="form-control mt-6">
+          <label class="cursor-pointer flex gap-x-2">
+            <input
+              v-model="isAgreeDelete"
+              type="checkbox"
+              class="checkbox checkbox-error"
+            />
+            <span class="label-text">問題ない</span>
+          </label>
+        </div>
+        <div class="modal-action">
+          <div class="grid grid-cols-2 gap-x-4">
+            <form method="dialog">
+              <button class="btn">キャンセル</button>
+            </form>
+            <button
+              class="btn btn-error text-white"
+              :disabled="!isAgreeDelete"
+              @click="initData"
+            >
+              初期化
+            </button>
+          </div>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
   </div>
 </template>
