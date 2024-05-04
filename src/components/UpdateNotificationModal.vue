@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useStore } from '@/composables/useStore'
 import { version } from '../config'
 import { changeLog } from '@/statics/changeLog'
 
+const store = useStore()
 const modalElement = ref<HTMLDialogElement>()
 
 const setCurrentVersion = () => {
@@ -34,7 +36,10 @@ const getDescriptionByBeforeUpdatedDiff = () => {
 
 onMounted(() => {
   // バージョンが更新された際にモーダルを表示し、内部の
-  if (localStorage.getItem('version') !== version) {
+  if (
+    localStorage.getItem('version') !== version &&
+    getDescriptionByBeforeUpdatedDiff().length > 0
+  ) {
     modalElement.value?.showModal()
   }
 })
@@ -46,7 +51,9 @@ onMounted(() => {
       <h3 class="font-bold text-lg">更新しました</h3>
       <p class="py-4">最新バージョンに更新しました</p>
       <code>{{ version }}</code>
-      <div class="p-3 bg-neutral-200 mt-2 rounded-md max-h-[350px] overflow-scroll">
+      <div
+        class="p-3 bg-neutral-200 mt-2 rounded-md max-h-[350px] overflow-scroll"
+      >
         <div class="space-y-3">
           <div
             v-for="item of getDescriptionByBeforeUpdatedDiff()"

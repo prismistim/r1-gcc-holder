@@ -46,8 +46,10 @@ const targetLocation = computed(() => {
           <span v-if="remainDays === 0" class="text-white">Today</span>
           <span v-else-if="remainDays < 0">Expired</span>
           <span v-else>
-            {{ remainDays }}
-            <span class="text-2xl">
+            <span class="text-3xl md:text-4xl">
+              {{ remainDays }}
+            </span>
+            <span class="text-lg md:text-2xl">
               day<span v-if="remainDays > 1">s</span></span
             >
           </span>
