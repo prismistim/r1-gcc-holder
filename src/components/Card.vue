@@ -13,7 +13,7 @@ type Props = {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  showLocation: false,
+  showLocation: false
 })
 
 const remainDays = computed(() => {
@@ -35,10 +35,10 @@ const targetLocation = computed(() => {
         ? 'from-red-300 to-primary'
         : remainDays > 0
           ? 'from-red-400 to-primary'
-          : 'from-neutral-400 to-neutral-600',
+          : 'from-neutral-400 to-neutral-600'
     ]"
   >
-    <figure v-if="$route.path === '/list'" :class="['h-6']"></figure>
+    <figure v-if="$route.path === '/list'" class="hidden md:block md:h-6"></figure>
     <slot></slot>
     <div class="card-body">
       <div class="text-2xl md:text-4xl font-medium">

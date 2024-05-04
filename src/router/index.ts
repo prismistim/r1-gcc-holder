@@ -4,6 +4,7 @@ import List from '../pages/list.vue'
 import Add from '../pages/add.vue'
 import Detail from '../pages/detail.vue'
 import ReCharge from '../pages/recharge.vue'
+import ChangeLog from '../pages/changelog.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -14,7 +15,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'List',
     path: '/list',
-    component: List,
+    component: List
   },
   {
     name: 'Add',
@@ -30,12 +31,17 @@ const routes: RouteRecordRaw[] = [
     name: 'ReCharge',
     path: '/recharge/:id',
     component: ReCharge
+  },
+  {
+    name: 'ChangeLog',
+    path: '/changelog',
+    component: ChangeLog
   }
 ]
 
 const router = createRouter({
   routes,
-  history: createWebHistory(),
+  history: createWebHistory()
 })
 
 export default router
