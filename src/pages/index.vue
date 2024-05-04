@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { version } from '../config'
 
 const router = useRouter()
 
@@ -21,14 +22,32 @@ onMounted(() => {
     <img src="/logo.svg" class="w-32" />
   </div>
   <div class="text-3xl font-bold text-center">r1-gcc-holder</div>
-  <div class="text-center mt-2">
-    <a
-      href="https://github.com/prismistim/r1-gcc-holder"
-      target="_blank"
-      class="text-lg inline-flex justify-center items-center py-1/2 text-primary font-semibold hover:opacity-50 transition-opacity duration-300 hover:cursor-pointer"
-    >
-      <span class="mr-1 material-symbols-outlined">open_in_new</span>GitHub
-    </a>
+  <div class="text-center mt-4">
+    <div class="badge badge-neutral badge-lg">{{ version }}</div>
+  </div>
+  <div class="mt-4 text-center">
+    <div>
+      <a
+        href="https://github.com/prismistim/r1-gcc-holder"
+        target="_blank"
+        class="text-lg inline-flex justify-center items-center py-1/2 text-primary font-semibold hover:opacity-50 transition-opacity duration-300 hover:cursor-pointer"
+      >
+        <span class="mr-1 material-symbols-outlined">
+          <span class="text-sm font-semibold flex items-center">
+            open_in_new
+          </span>
+        </span>
+        GitHub
+      </a>
+    </div>
+    <div>
+      <RouterLink
+        to="/changelog"
+        class="text-lg inline-flex justify-center items-center py-1/2 text-primary font-semibold hover:opacity-50 transition-opacity duration-300 hover:cursor-pointer"
+      >
+        リリース履歴
+      </RouterLink>
+    </div>
   </div>
   <div class="mx-auto mt-8 lg:px-24 max-w-[960px]">
     <div class="text-md md:text-lg font-bold mt-4">このアプリは何？</div>
