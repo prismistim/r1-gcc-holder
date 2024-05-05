@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { version } from '../config'
 import { changeLog } from '@/statics/changeLog'
 
@@ -9,34 +9,54 @@ const setCurrentVersion = () => {
   localStorage.setItem('version', version)
 }
 
-const getDescriptionByBeforeUpdatedDiff = () => {
+const getDescriptionByBeforeUpdatedDiff = computed(() => {
   return changeLog.filter((item) => {
-    const beforeVersion = localStorage
-      .getItem('version')
-      ?.split('.')
-      .map((v) => parseInt(v))
-    const targetVersion = item.version.split('.').map((v) => parseInt(v))
+    const beforeVersionStr = localStorage.getItem('version')
 
-    if (!beforeVersion || beforeVersion.length === 0) {
+    if (!beforeVersionStr) {
       return
     }
 
+    const splittedStr = beforeVersionStr.split('.')
+
+    if (splittedStr.length !== 3) {
+      return
+    }
+
+    const [beforeMajorVersion, beforeMinorVersion, beforePatchVersion] =
+      splittedStr.map((v) => parseInt(v))
+    const [targetMajorVersion, targetMinorVersion, targetPatchVersion] =
+      item.version.split('.').map((v) => parseInt(v))
+
+    // メジャーアップデート
+    if (targetMajorVersion > beforeMajorVersion) {
+      return item
+    }
+
+    // マイナーアップデート
     if (
-      beforeVersion[1] === targetVersion[1] &&
-      beforeVersion[2] < targetVersion[2]
+      targetMajorVersion === beforeMajorVersion &&
+      targetMinorVersion > beforeMinorVersion
     ) {
       return item
-    } else if (beforeVersion[1] < targetVersion[1]) {
+    }
+
+    // パッチアップデート
+    if (
+      targetMajorVersion === beforeMajorVersion &&
+      targetMinorVersion === beforeMinorVersion &&
+      targetPatchVersion > beforePatchVersion
+    ) {
       return item
     }
   })
-}
+})
 
 onMounted(() => {
-  // バージョンが更新された際にモーダルを表示し、内部の
+  // バージョンが更新された際にモーダルを表示
   if (
-    localStorage.getItem('version') !== version &&
-    getDescriptionByBeforeUpdatedDiff().length > 0
+    localStorage.getItem('version') !== version ||
+    getDescriptionByBeforeUpdatedDiff.value.length > 0
   ) {
     modalElement.value?.showModal()
   }
@@ -54,7 +74,7 @@ onMounted(() => {
       >
         <div class="space-y-3">
           <div
-            v-for="item of getDescriptionByBeforeUpdatedDiff()"
+            v-for="item of getDescriptionByBeforeUpdatedDiff"
             :key="item.version"
             class=""
           >
