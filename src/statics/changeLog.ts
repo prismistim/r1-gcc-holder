@@ -7,6 +7,13 @@ export type ChangeLogItem = {
 
 export const changeLog: ChangeLogItem[] = [
   {
+    version: '0.1.6',
+    updated_date: '2024-05-05',
+    title: '機能改善',
+    description:
+      '再チャージ時の画面デザインを現在のものに変更'
+  },
+  {
     version: '0.1.5',
     updated_date: '2024-05-05',
     title: '機能改善、その他追加',
