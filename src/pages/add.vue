@@ -83,7 +83,7 @@ onMounted(() => {
       @error="onError"
     ></QrcodeStream>
     <button
-      v-if="MODE !== 'production'"
+      v-if="MODE !== 'production' && $route.query.mode === 'dev'"
       class="btn"
       @click="formData.codeValue = 'hogehoge'"
     >
