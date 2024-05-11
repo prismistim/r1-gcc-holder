@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
 import { useStore } from '../composables/useStore'
@@ -15,6 +15,8 @@ const router = useRouter()
 const store = useStore()
 const error = ref('')
 
+const isShowCodeValue = ref(false)
+
 const MODE = import.meta.env.MODE
 
 const formData = ref<Omit<StoredDataItem, 'id'>>({
@@ -24,6 +26,11 @@ const formData = ref<Omit<StoredDataItem, 'id'>>({
 })
 
 const onDetect = async (item: QR[]) => {
+  if (!/^\d{16}$/.test(item[0].rawValue)) {
+    console.log(item[0].rawValue)
+    return
+  }
+
   formData.value.codeValue = item[0].rawValue
 }
 
@@ -64,6 +71,12 @@ const reload = () => {
 onMounted(() => {
   formData.value.issueDate = today.value
 })
+
+watchEffect(() => {
+  if (isShowCodeValue.value) {
+    setTimeout(() => isShowCodeValue.value = false, 3000)
+  }
+})
 </script>
 
 <template>
@@ -83,16 +96,18 @@ onMounted(() => {
       @error="onError"
     ></QrcodeStream>
     <button
-      v-if="MODE !== 'production'"
-      class="btn"
-      @click="formData.codeValue = 'hogehoge'"
+      class="btn mt-4"
+      @click="formData.codeValue = '1234567890123456'"
     >
-      ダミーデータ挿入
+      (お試し) ダミーデータ挿入
     </button>
   </div>
   <div v-else class="mt-4">
     <div>
       <div>QRコード</div>
+      <label class="input input-bordered flex items-center gap-2 bg-white">
+        <input :value="formData.codeValue" :type="isShowCodeValue ? 'text' : 'password'" class="grow" readonly>
+      </label>
       <button class="btn w-full mt-2" @click="clearCodeValue">再読取り</button>
     </div>
     <div class="mt-4">
