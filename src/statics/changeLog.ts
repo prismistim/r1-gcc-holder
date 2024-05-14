@@ -9,6 +9,12 @@ export const changeLog: ChangeLogItem[] = [
   {
     version: '0.1.7',
     updated_date: '2024-05-15',
+    title: 'バグ修正',
+    description: '(内部的な問題を修正)'
+  },
+  {
+    version: '0.1.7',
+    updated_date: '2024-05-15',
     title: '機能改善、バグ修正',
     description: '有効期限表示を追加時に180日になるように修正、テスト用のダミーデータ挿入ボタンの表示、スキャンしたデータについてのバリデーションを追加'
   },
