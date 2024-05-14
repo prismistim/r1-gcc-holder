@@ -1,7 +1,7 @@
 {
   "name": "r1-gcc-holder",
   "private": true,
-  "version": "0.1.71",
+  "version": "0.1.73",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
