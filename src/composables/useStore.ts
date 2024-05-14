@@ -17,6 +17,8 @@ export const useStore = () => {
         cards: []
       })
     )
+
+    localStorage.setItem('patch_status', '1')
   }
 
   const getStoredData = (): StoredData | null => {
