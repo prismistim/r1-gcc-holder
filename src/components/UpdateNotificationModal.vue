@@ -21,11 +21,18 @@ const getDescriptionByBeforeUpdatedDiff = () => {
       return
     }
 
-    if (
-      beforeVersion[1] === targetVersion[1] &&
-      beforeVersion[2] < targetVersion[2]
-    ) {
-      return item
+    if (beforeVersion[1] === targetVersion[1]) {
+      if (beforeVersion[2] < 10) {
+        beforeVersion[2] = beforeVersion[2] * 10
+      }
+
+      if (targetVersion[2] < 10) {
+        targetVersion[2] = targetVersion[2] * 10
+      }
+
+      if (beforeVersion[2] < targetVersion[2]) {
+        return item
+      }
     } else if (beforeVersion[1] < targetVersion[1]) {
       return item
     }
@@ -39,6 +46,8 @@ onMounted(() => {
     getDescriptionByBeforeUpdatedDiff().length > 0
   ) {
     modalElement.value?.showModal()
+  } else if (!localStorage.getItem('version')) {
+    setCurrentVersion()
   }
 })
 </script>
