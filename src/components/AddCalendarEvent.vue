@@ -26,7 +26,7 @@ const targetLocation = computed(() => {
 
 const expiredDate = computed(() => {
   if (!targetItem.value) return
-  else return dayjs(targetItem.value.issueDate).add(180, 'days').format('YYYYMMDD')
+  else return dayjs(targetItem.value.issueDate).add(181, 'days').format('YYYYMMDD')
 })
 </script>
 
