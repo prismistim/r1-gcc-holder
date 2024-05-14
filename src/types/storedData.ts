@@ -3,6 +3,7 @@ export type StoredDataItem = {
   codeValue: string
   issueDate: string
   locationId: 1
+  isDummy: boolean
 }
 
 export type StoredData = {

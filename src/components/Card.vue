@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const remainDays = computed(() => {
-  return dayjs(props.issueDate).add(180, 'day').diff(dayjs(), 'day')
+  return dayjs(props.issueDate).add(181, 'day').diff(dayjs(), 'day')
 })
 
 const targetLocation = computed(() => {
@@ -62,6 +62,7 @@ const targetLocation = computed(() => {
       </div>
       <div>
         {{ dayjs().add(remainDays, 'day').format('YYYY-MM-DD') }}
+        <div v-show="$route.path.startsWith('/detail')" class="badge badge-outline ml-2">ダミーデータ</div>
       </div>
       <div v-show="props.showLocation" class="flex flex-wrap gap-x-2">
         <span> @ {{ targetLocation?.name }} </span>

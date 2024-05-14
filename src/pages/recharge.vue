@@ -40,7 +40,7 @@ onMounted(() => {
 
 <template>
   <BackBtn></BackBtn>
-  <div class="mt-2 text-xl font-bold">有効期限を更新する（再チャージ）</div>
+  <div class="mt-4 text-xl font-bold">有効期限を更新する（再チャージ）</div>
   <div class="mt-4">
     <div class="mt-4">
       <label>再チャージ日</label>

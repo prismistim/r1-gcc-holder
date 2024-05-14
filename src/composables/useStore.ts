@@ -14,8 +14,8 @@ export const useStore = () => {
     localStorage.setItem(
       targetLocalStorageKey,
       JSON.stringify({
-        cards: [],
-      }),
+        cards: []
+      })
     )
   }
 
@@ -33,7 +33,16 @@ export const useStore = () => {
     const storedData = getStoredData()
     if (!storedData?.cards) return null
 
-    return storedData.cards.find((item) => (item.id === id)) ?? null
+    return storedData.cards.find((item) => item.id === id) ?? null
+  }
+
+  const getTargetItemByCode = (
+    codeValue: StoredDataItem['codeValue']
+  ): StoredDataItem | null => {
+    const storedData = getStoredData()
+    if (!storedData?.cards) return null
+
+    return storedData.cards.find((item) => item.codeValue === codeValue) ?? null
   }
 
   const addItem = (payload: Omit<StoredDataItem, 'id'>) => {
@@ -43,7 +52,7 @@ export const useStore = () => {
 
     storedData.cards.push({
       id: storedData.cards.length + 1,
-      ...payload,
+      ...payload
     })
     localStorage.setItem(targetLocalStorageKey, JSON.stringify(storedData))
   }
@@ -67,8 +76,8 @@ export const useStore = () => {
       JSON.stringify({
         cards: storedData.cards
           .filter((item) => item.id !== payload.id)
-          .concat([targetItem]),
-      }),
+          .concat([targetItem])
+      })
     )
   }
 
@@ -81,8 +90,8 @@ export const useStore = () => {
     localStorage.setItem(
       targetLocalStorageKey,
       JSON.stringify({
-        cards: payload,
-      }),
+        cards: payload
+      })
     )
   }
 
@@ -90,8 +99,9 @@ export const useStore = () => {
     initStore,
     getStoredData,
     getTargetItem,
+    getTargetItemByCode,
     addItem,
     changeItemIssueDate,
-    deleteItem,
+    deleteItem
   }
 }
