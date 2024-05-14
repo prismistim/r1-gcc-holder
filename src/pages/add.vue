@@ -13,16 +13,20 @@ import BackBtn from '../components/BackBtn.vue'
 
 const router = useRouter()
 const store = useStore()
-const error = ref('')
-
 const isShowCodeValue = ref(false)
 
 const MODE = import.meta.env.MODE
+
+const scanError = ref({
+  code: '',
+  message: ''
+})
 
 const formData = ref<Omit<StoredDataItem, 'id'>>({
   codeValue: '',
   issueDate: '',
   locationId: 1,
+  isDummy: false
 })
 
 const onDetect = async (item: QR[]) => {
@@ -31,25 +35,51 @@ const onDetect = async (item: QR[]) => {
     return
   }
 
+  if (store.getTargetItemByCode(item[0].rawValue)) {
+    scanError.value.code = 'IsAlreadyAdded'
+    return
+  }
+
   formData.value.codeValue = item[0].rawValue
+  formData.value.isDummy = false
 }
 
 const onError = (err: DOMException) => {
-  error.value = `[${err.name}] `
+  scanError.value.code = err.name
 
   if (err.name === 'NotAllowedError') {
-    error.value += 'QRコードをスキャンするにはカメラの使用を許可してください。'
+    scanError.value.message +=
+      'QRコードをスキャンするにはカメラの使用を許可してください。'
   } else if (err.name === 'NotFoundError') {
-    error.value += '使用できるカメラが見つかりません。'
+    scanError.value.message += '使用できるカメラが見つかりません。'
   } else if (err.name === 'NotReadableError') {
-    error.value += 'このカメラは他のアプリケーションで使用されています。'
+    scanError.value.message +=
+      'このカメラは他のアプリケーションで使用されています。'
   } else {
-    error.value += '不明なエラーです。'
+    scanError.value.message += '不明なエラーです。'
   }
+}
+
+const setDummyCode = () => {
+  let result = ''
+  const sourceChar = '0123456789'
+
+  for(let i = 0; i < 16; i++) {
+    result += sourceChar[Math.floor(Math.random() * sourceChar.length)]
+  }
+
+  formData.value.codeValue = 'd_' + result
+  formData.value.isDummy = true
 }
 
 const clearCodeValue = () => {
   formData.value.codeValue = ''
+  clearErrorStatus()
+}
+
+const clearErrorStatus = () => {
+  scanError.value.code = ''
+  scanError.value.message = ''
 }
 
 const today = computed(() => {
@@ -57,9 +87,15 @@ const today = computed(() => {
 })
 
 const setFormData = () => {
+  if (store.getTargetItemByCode(formData.value.codeValue)) {
+    scanError.value.code = 'IsAlreadyAdded'
+    scanError.value.message = 'このカードはすでに登録されています。'
+    return
+  }
+
   store.addItem({
     ...formData.value,
-    issueDate: dayjs(formData.value.issueDate).format('YYYY-MM-DD'),
+    issueDate: dayjs(formData.value.issueDate).format('YYYY-MM-DD')
   })
   router.push('/list')
 }
@@ -74,39 +110,46 @@ onMounted(() => {
 
 watchEffect(() => {
   if (isShowCodeValue.value) {
-    setTimeout(() => isShowCodeValue.value = false, 3000)
+    setTimeout(() => (isShowCodeValue.value = false), 3000)
   }
 })
 </script>
 
 <template>
   <BackBtn></BackBtn>
-  <div class="mt-2 text-xl font-bold">カードを追加する</div>
+  <div class="mt-4 text-xl font-bold">カードを追加する</div>
+  <div v-if="scanError.code" class="mt-2 p-4 rounded-md bg-error text-white">
+    <p>{{ scanError.message }}</p>
+    <button
+      v-if="scanError.code !== 'IsAlreadyAdded'"
+      class="btn btn-secondary mt-2"
+      @click="reload"
+    >
+      リロード
+    </button>
+  </div>
   <div v-if="!formData.codeValue" class="mt-4">
-    <div v-if="error">
-      <p>
-        {{ error }}
-      </p>
-      <button class="btn btn-success mt-2" @click="reload">リロード</button>
-    </div>
     <QrcodeStream
-      v-else
+      v-if="!scanError.code"
       :formats="['qr_code']"
       @detect="onDetect"
       @error="onError"
     ></QrcodeStream>
-    <button
-      class="btn mt-4"
-      @click="formData.codeValue = '1234567890123456'"
-    >
+    <button class="btn mt-2" @click="setDummyCode()">
       (お試し) ダミーデータ挿入
     </button>
   </div>
   <div v-else class="mt-4">
     <div>
-      <div>QRコード</div>
-      <label class="input input-bordered flex items-center gap-2 bg-white">
-        <input :value="formData.codeValue" :type="isShowCodeValue ? 'text' : 'password'" class="grow" readonly>
+      <div>QRコード<div v-show="formData.isDummy" class="ml-2 badge badge-outline badge-primary">ダミーデータ</div></div>
+      <label class="input input-bordered flex items-center mt-2 gap-2 bg-white">
+        <input
+          :value="formData.codeValue"
+          :type="isShowCodeValue ? 'text' : 'password'"
+          class="grow"
+          readonly
+          @click="isShowCodeValue = true"
+        />
       </label>
       <button class="btn w-full mt-2" @click="clearCodeValue">再読取り</button>
     </div>
@@ -121,7 +164,9 @@ watchEffect(() => {
           :max-date="new Date()"
           input-class-name="dp-issue-date"
         ></VueDatePicker>
-        <button class="btn mt-2" @click="formData.issueDate = today">今日</button>
+        <button class="btn mt-2" @click="formData.issueDate = today">
+          今日
+        </button>
       </div>
     </div>
     <div class="mt-4">
