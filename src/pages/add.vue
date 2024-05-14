@@ -15,8 +15,6 @@ const router = useRouter()
 const store = useStore()
 const isShowCodeValue = ref(false)
 
-const MODE = import.meta.env.MODE
-
 const scanError = ref({
   code: '',
   message: ''
