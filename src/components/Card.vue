@@ -39,7 +39,10 @@ const targetLocation = computed(() => {
           : 'from-neutral-400 to-neutral-600'
     ]"
   >
-    <figure v-if="$route.path === '/list'" class="hidden md:block md:h-6"></figure>
+    <figure
+      v-if="$route.path === '/list'"
+      class="hidden md:block md:h-6"
+    ></figure>
     <slot></slot>
     <div class="card-body">
       <div class="text-2xl md:text-4xl font-medium">
@@ -63,7 +66,12 @@ const targetLocation = computed(() => {
       </div>
       <div>
         {{ dayjs().add(remainDays, 'day').format('YYYY-MM-DD') }}
-        <div v-show="$route.path.startsWith('/detail') && props.isDummy" class="badge badge-outline ml-2">ダミーデータ</div>
+        <div
+          v-show="$route.path.startsWith('/detail') && props.isDummy"
+          class="badge badge-outline ml-2"
+        >
+          ダミーデータ
+        </div>
       </div>
       <div v-show="props.showLocation" class="flex flex-wrap gap-x-2">
         <span> @ {{ targetLocation?.name }} </span>

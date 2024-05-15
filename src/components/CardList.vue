@@ -48,6 +48,7 @@ const targetLocationCards = (locationId: Location['id']) => {
               :id="item.id"
               :issue-date="item.issueDate"
               :location-id="item.locationId"
+              :is-dummy="item.isDummy"
               :show-location="false"
             ></Card>
           </div>
