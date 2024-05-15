@@ -76,6 +76,7 @@ const deleteItem = () => {
       show-location
       :id="targetCard.id"
       :issue-date="targetCard.issueDate"
+      :is-dummy="targetCard.isDummy"
       :location-id="targetCard.locationId"
     >
       <div class="mt-7 mx-7 p-7 bg-white rounded-md">

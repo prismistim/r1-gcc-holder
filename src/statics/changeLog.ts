@@ -7,6 +7,12 @@ export type ChangeLogItem = {
 
 export const changeLog: ChangeLogItem[] = [
   {
+    version: '0.1.76',
+    updated_date: '2024-05-15',
+    title: 'バグ修正',
+    description: '(内部的な問題を修正)'
+  },
+  {
     version: '0.1.74',
     updated_date: '2024-05-15',
     title: 'バグ修正',
