@@ -17,26 +17,28 @@ if (needRefresh) {
 
 const updateStoredData = () => {
   // カードのオブジェクト構造のアップデート
-  if (!patchStatus || parseInt(patchStatus) < 1) {
-    const storedData = store.getStoredData()
-  
-    if (!storedData) {
-      return
-    } 
-  
-    const updatedData = storedData?.cards.map((item) => {
-      return {
-        ...item,
-        isDummy: false
-      }
-    })
-  
-    store.initStore()
-  
-    updatedData?.forEach((item) => {
-      store.addItem(item)
-    })
+  if (patchStatus && parseInt(patchStatus) > 1) {
+    return
   }
+
+  const storedData = store.getStoredData()
+
+  if (!storedData) {
+    return
+  } 
+
+  const updatedData = storedData?.cards.map((item) => {
+    return {
+      ...item,
+      isDummy: false
+    }
+  })
+
+  store.initStore()
+
+  updatedData?.forEach((item) => {
+    store.addItem(item)
+  })
 }
 
 onMounted(() => {
