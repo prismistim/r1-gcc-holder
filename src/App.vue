@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
+import { useStore } from './composables/useStore'
 import NavBar from './components/NavBar.vue'
 import MyFooter from './components/MyFooter.vue'
 import UpdateNotificationModal from './components/UpdateNotificationModal.vue'
-import { useStore } from './composables/useStore'
-import { onMounted } from 'vue'
 
 const { needRefresh, updateServiceWorker } = useRegisterSW()
 const store = useStore()
@@ -17,28 +17,27 @@ if (needRefresh) {
 
 const updateStoredData = () => {
   // カードのオブジェクト構造のアップデート
-  if (patchStatus && parseInt(patchStatus) > 1) {
-    return
-  }
-
   const storedData = store.getStoredData()
 
   if (!storedData) {
     return
-  } 
+  }
 
-  const updatedData = storedData?.cards.map((item) => {
-    return {
-      ...item,
-      isDummy: false
-    }
-  })
+  // ダミーデータ用のプロパティの追加
+  if (!patchStatus || parseInt(patchStatus) < 1) {
+    const updatedData = storedData?.cards.map((item) => {
+      return {
+        ...item,
+        isDummy: false
+      }
+    })
 
-  store.initStore()
+    store.initStore()
 
-  updatedData?.forEach((item) => {
-    store.addItem(item)
-  })
+    updatedData?.forEach((item) => {
+      store.addItem(item)
+    })
+  }
 }
 
 onMounted(() => {
