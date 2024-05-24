@@ -7,6 +7,12 @@ export type ChangeLogItem = {
 
 export const changeLog: ChangeLogItem[] = [
   {
+    version: '0.1.78',
+    updated_date: '2024-05-24',
+    title: '機能改善',
+    description: 'カードの有効期限の更新タイミング(午前6時)に対応'
+  },
+  {
     version: '0.1.77',
     updated_date: '2024-05-15',
     title: 'バグ修正',
