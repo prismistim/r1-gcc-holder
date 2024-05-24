@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const remainDays = computed(() => {
-  return dayjs(props.issueDate).add(181, 'day').diff(dayjs(), 'day')
+  return dayjs(props.issueDate).add(181, 'day').add(6, 'hours').diff(dayjs(), 'day')
 })
 
 const targetLocation = computed(() => {
