@@ -2,6 +2,9 @@
 import { onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { themeChange } from 'theme-change'
+import { useSession } from '@/composables/useSession'
+
+const session = useSession()
 
 onMounted(() => {
   themeChange(false)
@@ -20,7 +23,10 @@ onMounted(() => {
     <div class="flex-none">
       <ul class="menu menu-horizontal rounded-box gap-x-2 text-rose-500">
         <li>
-          <button :disabled="$route.name === 'List'" @click="$router.push('/list')">
+          <button
+            :disabled="$route.path === '/list' || !session.isConfirmNotice()"
+            @click="$router.push('/list')"
+          >
             <span class="material-symbols-outlined">home</span>
           </button>
         </li>
