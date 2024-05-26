@@ -1,21 +1,19 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from '@/composables/useStore'
+import { useSession } from '@/composables/useSession'
 import { version } from '../config'
 
 const router = useRouter()
 const store = useStore()
+const session = useSession()
 const isAgreeDelete = ref(false)
 
 const onConfirm = () => {
-  sessionStorage.setItem('confirm_notice', 'ok')
+  session.setConfirmNoticeStatus()
   router.push('/list')
 }
-
-const isConfirmed = computed(() => {
-  return sessionStorage.getItem('confirm_notice') === 'ok'
-})
 
 const initData = () => {
   localStorage.clear()
@@ -91,14 +89,14 @@ onMounted(() => {
     </ul>
     <div class="text-center mt-6">
       <button
-        v-show="!isConfirmed"
+        v-show="!session.isConfirmNotice()"
         class="btn btn-primary text-white"
         @click="onConfirm"
       >
         注意事項を理解した上で利用を開始する
       </button>
     </div>
-    <div class="card ring-1 ring-error mt-6" v-show="isConfirmed">
+    <div class="card ring-1 ring-error mt-6" v-show="session.isConfirmNotice()">
       <div class="card-body">
         <h2 class="card-title text-error">
           <span class="material-symbols-outlined">warning</span>危険地帯
@@ -109,7 +107,7 @@ onMounted(() => {
         </p>
         <div class="mt-2">
           <button
-            v-show="isConfirmed"
+            v-show="session.isConfirmNotice()"
             class="btn btn-error text-white w-full md:w-48"
             onclick="delete_modal.showModal()"
           >
