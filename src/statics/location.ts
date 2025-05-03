@@ -32,4 +32,9 @@ export const locations: Location[] = [
     prefId: 13,
     name: '吉祥寺',
   },
+  {
+    id: 6,
+    prefId: 44,
+    name: '宮崎',
+  },
 ]
