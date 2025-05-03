@@ -7,6 +7,12 @@ export type ChangeLogItem = {
 
 export const changeLog: ChangeLogItem[] = [
   {
+    version: '0.1.79',
+    updated_date: '2025-05-04',
+    title: 'ロケーション追加',
+    description: '宮崎の店舗情報を追加'
+  },
+  {
     version: '0.1.78',
     updated_date: '2024-05-24',
     title: '機能改善',
